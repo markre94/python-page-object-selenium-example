@@ -1,11 +1,18 @@
 from pages.base_page import BasePage
 from utils.locators import MainPageHeaderLocators, MainPageItemListLocators, InventoryItemLocators
+import pages.cart_page as cart_page
 
 
 class MainPageHeader(BasePage):
     def __init__(self, driver):
         self.locators = MainPageHeaderLocators()
         super().__init__(driver, "https://www.saucedemo.com/invetory.html")
+
+    def open_cart(self):
+        self.find_element(*self.locators.SHOPPING_CART).click()
+
+    def get_qty_of_items_in_the_cart(self):
+        return int(self.find_element(*self.locators.ITEMS_QTY_IN_THE_CART).text)
 
 
 class MainPageItemList(BasePage):
@@ -50,4 +57,9 @@ class MainPage(BasePage):
         idx = self.get_inventory_list_item_names().index(name)
         self.inventory_item.add_to_cart(idx)
 
+    def open_cart(self):
+        self.header.open_cart()
+        return cart_page.CartPage(self.driver)
 
+    def get_qty_of_items_in_the_cart(self):
+        return self.header.get_qty_of_items_in_the_cart()
