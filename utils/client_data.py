@@ -1,5 +1,6 @@
-from dataclasses import dataclass
 import json
+import os
+from dataclasses import dataclass
 
 
 @dataclass
@@ -10,6 +11,6 @@ class Client:
 
 
 def load_client_data():
-    with open("../data/users.json") as user_data:
+    with open(os.path.join(os.getcwd(), "data/users.json")) as user_data:
         data = json.load(user_data)
         return Client(**data['valid_user'])

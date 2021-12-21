@@ -24,8 +24,6 @@ def test_inventory_page_smoke(init_driver):
     sign_in = CommonSignUpActions(init_driver)
     main_page = sign_in.sign_in_with_normal_user()
 
-
-
     assert True is main_page.are_inventory_items_visible()
 
     links = main_page.get_footer_link_responses()
