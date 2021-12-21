@@ -1,9 +1,7 @@
 # python-page-object-selenium-example
 
-This is example implementation of the automation test framework written in pytest & selenium.
-
-This project was created in PageObject Pattern. The cases were written on dummy e-comerece web site https://www.saucedemo.com/.
-
+This is an example implementation of the automation test framework written in pytest & selenium. Designed in Page Object Patten.
+The cases were written on dummy e-commerece web site https://www.saucedemo.com/ that was designed for practising automation techniques. 
 
 ### To run tests you need to
 
