@@ -1,7 +1,8 @@
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import requests
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class BasePage:
@@ -38,3 +39,8 @@ class BasePage:
     def select_item_by_value(self, *locator, value: str):
         select = Select(self.driver.find_element(*locator))
         select.select_by_value(value)
+
+    def is_link_broken(self, *locator) -> bool:
+        link = self.driver.find_element(*locator).get_attribute('src')
+        response = requests.head(link)
+        return response.status_code != 200

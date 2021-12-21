@@ -1,7 +1,7 @@
 from pages.base_page import BasePage
+from pages.main_page import MainPage
 from utils.locators import SignInPageLocators
 from utils.users_data import User, get_user
-from pages.main_page import MainPage
 
 
 class SignInPage(BasePage):

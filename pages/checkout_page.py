@@ -1,6 +1,8 @@
+import pages.cart_page as cart_page
+import pages.main_page as main_page
 from pages.base_page import BasePage
-from utils.locators import CheckoutStepOneLocators, CheckoutOverviewLocators, CheckoutCompleteLocators
 from utils.client_data import Client
+from utils.locators import CheckoutStepOneLocators, CheckoutOverviewLocators, CheckoutCompleteLocators
 
 
 class CheckoutClientInfoPage(BasePage):
@@ -28,6 +30,7 @@ class CheckoutClientInfoPage(BasePage):
 
     def click_cancel(self):
         self.find_element(*self.locators.CANCEL_BTN).click()
+        return cart_page.CartPage(self.driver)
 
 
 class CheckoutOverviewPage(BasePage):
@@ -37,6 +40,7 @@ class CheckoutOverviewPage(BasePage):
 
     def click_finish(self):
         self.find_element(*self.locators.FINISH_BTN).click()
+        return CheckoutCompletePage(self.driver)
 
     def click_cancel(self):
         self.find_element(*self.locators.CANCEL_BTN).click()
@@ -55,6 +59,14 @@ class CheckoutCompletePage(BasePage):
 
     def click_back_home(self):
         self.find_element(*self.locators.BACK_HOME_BTN).click()
+        return main_page.MainPage(self.driver)
 
     def get_header_complete(self):
-        pass
+        return self.find_element(*self.locators.COMPLETE_HEADER).text
+
+    def get_complete_text_msg(self):
+        return self.find_element(*self.locators.COMPLETE_TEXT).text
+
+    def is_image_broken(self):
+        return self.is_link_broken(*self.locators.PONY_IMG)
+

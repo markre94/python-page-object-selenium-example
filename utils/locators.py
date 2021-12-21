@@ -15,6 +15,7 @@ class MainPageItemListLocators:
     INVENTORY_ITEM = (By.CLASS_NAME, 'inventory_item')
     INVENTORY_ITEM_NAME = (By.CLASS_NAME, 'inventory_item_name')
     SELECT_SORT_TYPE = (By.CLASS_NAME, 'product_sort_container')
+    INVENTORY_BTN = (By.CLASS_NAME, 'btn_inventory')
 
 
 class MainPageHeaderLocators:
@@ -26,6 +27,13 @@ class InventoryItemLocators:
     PRICE = (By.CLASS_NAME, 'inventory_item_price')
     ADD_TO_CARD_BTN = (By.CLASS_NAME, 'btn_inventory')
     ITEM_DESCRIPTION = (By.CLASS_NAME, 'inventory_item_desc')
+    REMOVE_FROM_CART = (By.XPATH, '//button[text()="Remove"]')
+
+
+class FooterMainPageLocators:
+    SOCIAL_LINKS = (By.CLASS_NAME, 'social')
+    FOOTER_COPYRIGHTS = (By.CLASS_NAME, 'footer_copy')
+    FOOTER_ROBOT_IMG = (By.CLASS_NAME, 'footer_robot')
 
 
 class CartLocators:
