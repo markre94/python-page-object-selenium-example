@@ -1,4 +1,3 @@
-from time import sleep
 
 from pages.sign_in_page import SignInPage
 from utils.users_data import get_user

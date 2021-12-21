@@ -1,9 +1,20 @@
 from pages.sign_in_page import CommonSignUpActions
+import pytest
+
+test_data = [('az', ['Sauce Labs Backpack', 'Sauce Labs Bike Light', 'Sauce Labs Bolt T-Shirt',
+                     'Sauce Labs Fleece Jacket', 'Sauce Labs Onesie', 'Test.allTheThings() T-Shirt (Red)']),
+             ('za', ['Test.allTheThings() T-Shirt (Red)', 'Sauce Labs Onesie', 'Sauce Labs Fleece Jacket',
+                     'Sauce Labs Bolt T-Shirt', 'Sauce Labs Bike Light', 'Sauce Labs Backpack']),
+             ('hilo', ['Sauce Labs Fleece Jacket', 'Sauce Labs Backpack', 'Sauce Labs Bolt T-Shirt',
+                       'Test.allTheThings() T-Shirt (Red)', 'Sauce Labs Bike Light', 'Sauce Labs Onesie']),
+             ('lohi', ['Sauce Labs Onesie', 'Sauce Labs Bike Light', 'Sauce Labs Bolt T-Shirt',
+                       'Test.allTheThings() T-Shirt (Red)', 'Sauce Labs Backpack', 'Sauce Labs Fleece Jacket'])]
 
 
-def test_sort_inventory(init_driver):
+@pytest.mark.parametrize("sort_type,expected_sorted_item_list", test_data)
+def test_sort_inventory_all_type(init_driver, sort_type, expected_sorted_item_list):
     sign_in = CommonSignUpActions(init_driver)
     main_page = sign_in.sign_in_with_normal_user()
-    main_page.item_list.sort_items_by_price_high_to_low()
-    ls = main_page.get_inventory_list_item_names()
-    assert ls[0] == 'Sauce Labs Fleece Jacket'
+    main_page.sort_items_in_page(sort_type)
+    sorted_list = main_page.get_inventory_list_item_names()
+    assert expected_sorted_item_list == sorted_list, "Item list don't match."

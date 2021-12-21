@@ -10,7 +10,7 @@ def init_driver():
     """Fixture used for initializing of the driver."""
 
     options = Options()
-    options.add_argument('--no-sandbox')  # # Bypass OS security model
+    options.add_argument('--no-sandbox')
     options.add_argument('disable-infobars')
     options.add_argument("--disable-extensions")
     options.add_argument("--start-fullscreen")

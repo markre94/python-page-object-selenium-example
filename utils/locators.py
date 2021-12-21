@@ -19,3 +19,15 @@ class MainPageItemListLocators:
 
 class MainPageHeaderLocators:
     pass
+
+
+class InventoryItemLocators:
+    PRICE = (By.CLASS_NAME, 'inventory_item_price')
+    ADD_TO_CARD_BTN = (By.ID, 'add-to-cart-sauce-labs-onesie')
+    ITEM_DESCRIPTION = (By.CLASS_NAME, 'inventory_item_desc')
+
+
+class CartLocators:
+    INVENTORY_ITEM_NAME = (By.CLASS_NAME, 'inventory_item_name')
+    CART_QTY = (By.CLASS_NAME, 'cart_quantity')
+    INVENTORY_ITEM_PRICE = (By.CLASS_NAME, 'inventory_item_price')
