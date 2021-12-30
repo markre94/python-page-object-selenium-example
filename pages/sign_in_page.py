@@ -2,6 +2,9 @@ from pages.base_page import BasePage
 from pages.main_page import MainPage
 from utils.locators import SignInPageLocators
 from utils.users_data import User, get_user
+from utils.log import setup_custom_logger
+
+logger = setup_custom_logger()
 
 
 class SignInPage(BasePage):
@@ -37,6 +40,7 @@ class CommonSignUpActions:
 
     def sign_in_with_normal_user(self):
         user = get_user('standard')
+        logger.info(f"Selected user {user}")
         self.page.sign_in(user)
         return MainPage(self.page.driver)
 

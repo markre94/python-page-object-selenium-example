@@ -18,7 +18,7 @@ class TestConfig:
 
 @pytest.fixture(scope='session')
 def config():
-    config_file = os.path.join(os.getcwd(), 'config.json')
+    config_file = os.path.join("/Users/marcin94/PycharmProjects/sauce_demo_ui_tests", 'config.json')
     with open(config_file) as f:
         return TestConfig(**json.load(f))
 
