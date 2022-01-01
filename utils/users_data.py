@@ -1,4 +1,8 @@
 from dataclasses import dataclass
+from utils.log import setup_custom_logger
+
+
+logger = setup_custom_logger()
 
 
 @dataclass
@@ -16,4 +20,6 @@ users = {
 
 
 def get_user(name: str) -> User:
+    user = users[name]
+    logger.info(f"Selected {user} from {users.keys()}")
     return users[name]
