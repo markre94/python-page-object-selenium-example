@@ -21,6 +21,14 @@ class MainPageItemListLocators:
 class MainPageHeaderLocators:
     SHOPPING_CART = (By.CLASS_NAME, 'shopping_cart_link')
     ITEMS_QTY_IN_THE_CART = (By.CLASS_NAME, 'shopping_cart_badge')
+    SIDE_BAR = (By.ID, 'react-burger-menu-btn')
+
+
+class SideBarLocators:
+    INVENTORY_LINK = (By.ID, 'inventory_sidebar_link')
+    ABOUT_SIDEBAR_LINK = (By.ID, 'about_sidebar_link')
+    LOGOUT_SIDEBAR = (By.ID, 'logout_sidebar_link')
+    RESET_APP = (By.ID, 'reset_sidebar_link')
 
 
 class InventoryItemLocators:
@@ -52,6 +60,7 @@ class CheckoutStepOneLocators:
     POSTAL_CODE_FORM = (By.ID, 'postal-code')
     CANCEL_BTN = (By.ID, 'cancel')
     CONTINUE_BTN = (By.ID, 'continue')
+    ERROR_MSG = (By.CLASS_NAME, 'error-message-container')
 
 
 class CheckoutOverviewLocators:

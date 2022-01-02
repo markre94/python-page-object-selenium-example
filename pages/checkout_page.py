@@ -16,13 +16,16 @@ class CheckoutClientInfoPage(BasePage):
     def _type_in_last_name(self, name: str):
         self.find_element(*self.locators.LAST_NAME_FROM).send_keys(name)
 
-    def _type_in_postal_code(self, code: int):
+    def _type_in_postal_code(self, code: str):
         self.find_element(*self.locators.POSTAL_CODE_FORM).send_keys(code)
 
     def fill_user_data(self, data: Client):
         self._type_in_first_name(data.first_name)
         self._type_in_last_name(data.last_name)
         self._type_in_postal_code(data.zip_code)
+
+    def get_client_error_message(self):
+        return self.get_element_possible_message(*self.locators.ERROR_MSG)
 
     def click_continue(self):
         self.find_element(*self.locators.CONTINUE_BTN).click()

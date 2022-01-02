@@ -12,6 +12,7 @@ class UserTypes(Enum):
     PROBLEM = 'problem'
     PERFORMANCE_GLITCH = 'performance_glitch'
     INVALID_DATA = "wrong"
+    NO_DATA = "no_data"
 
 
 @dataclass
@@ -25,7 +26,8 @@ users = {
     UserTypes.LOCKED_OUT: User('locked_out_user'),
     UserTypes.PROBLEM: User('problem_user'),
     UserTypes.PERFORMANCE_GLITCH: User('performance_glitch_user'),
-    UserTypes.INVALID_DATA: User('wrong', 'wrong')
+    UserTypes.INVALID_DATA: User('wrong', 'wrong'),
+    UserTypes.NO_DATA: User('', '')
 }
 
 

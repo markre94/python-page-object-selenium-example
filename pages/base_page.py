@@ -74,9 +74,16 @@ class BasePage:
         link.request_head()
         return link.is_link_broken()
 
-    def get_element_message(self, *locator):
+    def get_element_possible_message(self, *locator):
         try:
             return self.driver.find_element(*locator).text
         except NoSuchElementException:
             logger.warning("Not found message element. Returning ''")
             return ""
+
+    def wait_for_side_bar_element(self, *locator):
+        try:
+            WebDriverWait(self.driver, self.TIME_OUT).until(EC.element_to_be_clickable(locator))
+            logger.info(f"Found clickable element for {locator[1]} searched by {locator[0]}.")
+        except TimeoutException:
+            logger.error(f"Element {locator[1]} is not clickable.")

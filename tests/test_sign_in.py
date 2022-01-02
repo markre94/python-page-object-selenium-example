@@ -1,6 +1,6 @@
 import pytest
 
-from pages.sign_in_page import SignInPage
+from pages.sign_in_page import SignInPage, CommonSignUpActions
 from utils.log import setup_custom_logger
 from utils.users_data import get_user, UserTypes
 
@@ -12,7 +12,8 @@ sign_in_user_data = [
     (UserTypes.PROBLEM, ("", "https://www.saucedemo.com/inventory.html")),
     (UserTypes.PERFORMANCE_GLITCH, ("", "https://www.saucedemo.com/inventory.html")),
     (UserTypes.INVALID_DATA, ("Epic sadface: Username and password do not match any user in this service",
-                              "https://www.saucedemo.com/"))
+                              "https://www.saucedemo.com/")),
+    (UserTypes.NO_DATA, ("Epic sadface: Username is required", "https://www.saucedemo.com/"))
 ]
 
 
@@ -25,5 +26,22 @@ def test_sign_in_user(init_driver, user_type, expected_result):
 
     assert page.page_url == expected_result[1]
     logger.info(f"Checking current page url.")
-    assert expected_result[0] == page.get_error_msg()
+    assert expected_result[0] == page.get_sign_in_error_msg()
     logger.info("Checking if error message appeared.")
+
+
+def test_go_to_page_inventory_without_signing_in(init_driver):
+    page = SignInPage(init_driver)
+    init_driver.get("https://www.saucedemo.com/inventory.html")
+    error_msg = "Epic sadface: You can only access '/inventory.html' when you are logged in."
+    assert init_driver.current_url == "https://www.saucedemo.com/"
+    assert page.get_sign_in_error_msg() == error_msg
+
+
+def test_log_out(init_driver):
+    sign_in = CommonSignUpActions(init_driver)
+    main = sign_in.sign_in_with_normal_user()
+    main.side_bar_log_out()
+
+    assert init_driver.current_url == "https://www.saucedemo.com/"
+

@@ -3,5 +3,11 @@
         "first_name": "Tom",
         "last_name": "Jones",
         "zip_code": 25413
+    },
+
+    "no_data_user":{
+        "first_name": "",
+        "last_name": "",
+        "zip_code": ""
     }
 }

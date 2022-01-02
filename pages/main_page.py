@@ -2,15 +2,17 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
 import pages.cart_page as cart_page
+import pages.sign_in_page as sign_in_page
 from pages.base_page import BasePage
 from utils.locators import MainPageHeaderLocators, MainPageItemListLocators, InventoryItemLocators, \
-    FooterMainPageLocators
+    FooterMainPageLocators, SideBarLocators
 from utils.link_response import LinkResponse
 
 
 class MainPageHeader(BasePage):
     def __init__(self, driver):
         self.locators = MainPageHeaderLocators()
+        self.side_bar_locators = SideBarLocators()
         super().__init__(driver, "https://www.saucedemo.com/invetory.html")
 
     def open_cart(self):
@@ -23,6 +25,14 @@ class MainPageHeader(BasePage):
             return 0
         else:
             return int(element.text)
+
+    def _click_and_open_sidebar(self):
+        self.find_element(*self.locators.SIDE_BAR).click()
+
+    def side_bar_log_out(self):
+        self._click_and_open_sidebar()
+        self.wait_for_side_bar_element(*self.side_bar_locators.LOGOUT_SIDEBAR)
+        self.find_element(*self.side_bar_locators.LOGOUT_SIDEBAR).click()
 
 
 class MainPageItemList(BasePage):
@@ -114,3 +124,7 @@ class MainPage(BasePage):
             if not item.is_displayed():
                 return False
         return True
+
+    def side_bar_log_out(self):
+        self.header.side_bar_log_out()
+        return sign_in_page.SignInPage
