@@ -25,7 +25,7 @@ class BasePage:
     def find_element(self, *locator):
         elem = self.driver.find_element(*locator)
         if elem:
-            logger.info(f"Found element with {elem}. Element location {elem.location}.")
+            logger.info(f"Found element with {locator[1]} {locator[0]}locator. Element location {elem.location}.")
         else:
             logger.error(f"Element searched by {locator[0]} not found with {locator[1]}.")
 
@@ -34,7 +34,7 @@ class BasePage:
     def find_elements(self, *locator):
         elements = self.driver.find_elements(*locator)
         if elements:
-            logger.info(f"Found elements: {elements}")
+            logger.info(f"Found {len(elements)} elements with locator {locator[1]}.")
         else:
             logger.error(f"Elements searched by {locator[0]} not found.")
         return elements
