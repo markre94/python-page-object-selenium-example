@@ -1,8 +1,17 @@
 from dataclasses import dataclass
+from enum import Enum
+
 from utils.log import setup_custom_logger
 
-
 logger = setup_custom_logger()
+
+
+class UserTypes(Enum):
+    STANDARD = "standard"
+    LOCKED_OUT = 'locked_out'
+    PROBLEM = 'problem'
+    PERFORMANCE_GLITCH = 'performance_glitch'
+    INVALID_DATA = "wrong"
 
 
 @dataclass
@@ -12,14 +21,15 @@ class User:
 
 
 users = {
-    "standard": User('standard_user'),
-    "locked_out": User('locked_out_user'),
-    "problem": User(name='problem_user'),
-    "performance_glitch": User('performance_glitch_user')
+    UserTypes.STANDARD: User('standard_user'),
+    UserTypes.LOCKED_OUT: User('locked_out_user'),
+    UserTypes.PROBLEM: User('problem_user'),
+    UserTypes.PERFORMANCE_GLITCH: User('performance_glitch_user'),
+    UserTypes.INVALID_DATA: User('wrong', 'wrong')
 }
 
 
-def get_user(name: str) -> User:
+def get_user(name: UserTypes) -> User:
     user = users[name]
-    logger.info(f"Selected {user} from {users.keys()}")
-    return users[name]
+    logger.info(f"Selected {user} from {list(users.keys())}")
+    return user

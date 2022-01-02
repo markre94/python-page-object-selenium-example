@@ -1,7 +1,7 @@
 from pages.base_page import BasePage
 from pages.main_page import MainPage
 from utils.locators import SignInPageLocators
-from utils.users_data import User, get_user
+from utils.users_data import User, get_user, UserTypes
 
 
 class SignInPage(BasePage):
@@ -25,7 +25,7 @@ class SignInPage(BasePage):
         self.click_login_btn()
 
     def get_error_msg(self):
-        return self.find_element(*self.locators.ERROR_BOX).text
+        return self.get_element_message(*self.locators.ERROR_BOX)
 
     def close_error_login_msg_box(self):
         self.find_element(*self.locators.ERROR_BOX_CLOSE_BTN).click()
@@ -36,11 +36,11 @@ class CommonSignUpActions:
         self.page = SignInPage(driver)
 
     def sign_in_with_normal_user(self):
-        user = get_user('standard')
+        user = get_user(UserTypes.STANDARD)
         self.page.sign_in(user)
         return MainPage(self.page.driver)
 
     def sign_in_with_problem_user(self):
-        user = get_user('problem')
+        user = get_user(UserTypes.PROBLEM)
         self.page.sign_in(user)
         return MainPage(self.page.driver)

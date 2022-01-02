@@ -1,4 +1,4 @@
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
@@ -13,14 +13,14 @@ class BasePage:
     TIME_OUT = 10
 
     def __init__(self, driver, url: str):
-        self.url = url
+        self._url = url
         self.driver = driver
 
     def open(self):
-        if self.driver.current_url == self.url:
+        if self.driver.current_url == self._url:
             return
-        self.driver.get(self.url)
-        logger.info(f'Opening browser and navigating to {self.url}')
+        self.driver.get(self._url)
+        logger.info(f'Opening browser and navigating to {self._url}')
 
     def find_element(self, *locator):
         elem = self.driver.find_element(*locator)
@@ -47,7 +47,8 @@ class BasePage:
             logger.error(f"Title of the page unknown.")
         return title
 
-    def get_url(self) -> str:
+    @property
+    def page_url(self) -> str:
         url = self.driver.current_url
         if url:
             logger.info(f"Current drivers url {url}")
@@ -72,3 +73,10 @@ class BasePage:
         link = LinkResponse(self.driver.find_element(*locator).get_attribute(attribute))
         link.request_head()
         return link.is_link_broken()
+
+    def get_element_message(self, *locator):
+        try:
+            return self.driver.find_element(*locator).text
+        except NoSuchElementException:
+            logger.warning("Not found message element. Returning ''")
+            return ""
