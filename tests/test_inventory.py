@@ -1,5 +1,6 @@
-from pages.sign_in_page import CommonSignUpActions
 import pytest
+
+from pages.sign_in_page import CommonSignUpActions
 
 test_data = [('az', ['Sauce Labs Backpack', 'Sauce Labs Bike Light', 'Sauce Labs Bolt T-Shirt',
                      'Sauce Labs Fleece Jacket', 'Sauce Labs Onesie', 'Test.allTheThings() T-Shirt (Red)']),
@@ -27,4 +28,4 @@ def test_inventory_page_smoke(init_driver):
     assert True is main_page.are_inventory_items_visible()
 
     links = main_page.get_footer_link_responses()
-    assert [200, 200, 999] == links
+    assert [200, 200, 999] == list(links.values())

@@ -8,9 +8,8 @@ from utils.client_data import load_client_data
 
 @pytest.fixture()
 def data():
-    item_1_data = dict(name='Sauce Labs Backpack', price=Decimal('29.99'))
-    item_2_data = dict(name='Sauce Labs Bike Light', price=Decimal('15.99'))
-    return [item_1_data, item_2_data]
+    return [dict(name='Sauce Labs Backpack', price=Decimal('29.99')),
+            dict(name='Sauce Labs Bike Light', price=Decimal('15.99'))]
 
 
 @pytest.fixture

@@ -10,19 +10,19 @@ class CheckoutClientInfoPage(BasePage):
         self.locators = CheckoutStepOneLocators()
         super().__init__(driver, 'https://www.saucedemo.com/checkout-step-one.html')
 
-    def type_in_first_name(self, name: str):
+    def _type_in_first_name(self, name: str):
         self.find_element(*self.locators.FIRST_NAME_FORM).send_keys(name)
 
-    def type_in_last_name(self, name: str):
+    def _type_in_last_name(self, name: str):
         self.find_element(*self.locators.LAST_NAME_FROM).send_keys(name)
 
-    def type_in_postal_code(self, code: int):
+    def _type_in_postal_code(self, code: int):
         self.find_element(*self.locators.POSTAL_CODE_FORM).send_keys(code)
 
     def fill_user_data(self, data: Client):
-        self.type_in_first_name(data.first_name)
-        self.type_in_last_name(data.last_name)
-        self.type_in_postal_code(data.zip_code)
+        self._type_in_first_name(data.first_name)
+        self._type_in_last_name(data.last_name)
+        self._type_in_postal_code(data.zip_code)
 
     def click_continue(self):
         self.find_element(*self.locators.CONTINUE_BTN).click()
@@ -68,5 +68,5 @@ class CheckoutCompletePage(BasePage):
         return self.find_element(*self.locators.COMPLETE_TEXT).text
 
     def is_image_broken(self):
-        return self.is_link_broken(*self.locators.PONY_IMG)
+        return self.is_link_element_broken(*self.locators.PONY_IMG)
 

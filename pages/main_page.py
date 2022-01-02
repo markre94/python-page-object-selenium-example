@@ -1,10 +1,11 @@
-import requests
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 
 import pages.cart_page as cart_page
 from pages.base_page import BasePage
 from utils.locators import MainPageHeaderLocators, MainPageItemListLocators, InventoryItemLocators, \
     FooterMainPageLocators
+from utils.link_response import LinkResponse
 
 
 class MainPageHeader(BasePage):
@@ -61,12 +62,12 @@ class FooterMainPage(BasePage):
         super().__init__(driver, "https://www.saucedemo.com/invetory.html")
 
     def get_links_responses(self):
-        responses = []
+        responses = {}
         element = self.find_element(*self.locators.SOCIAL_LINKS)
-        links = element.find_elements_by_tag_name('a')
+        links = element.find_elements(By.TAG_NAME, 'a')
         for link in links:
-            re = requests.head(link.get_attribute('href'))
-            responses.append(re.status_code)
+            link_res = LinkResponse(link.get_attribute('href'))
+            responses[link] = link_res.get_link_response()
         return responses
 
 
@@ -108,9 +109,8 @@ class MainPage(BasePage):
         return self.footer.get_links_responses()
 
     def are_inventory_items_visible(self):
-        items_visibility = []
         items = self.item_list.get_inventory_item_list()
         for item in items:
-            items_visibility.append(item.is_displayed())
-
-        return list(set(items_visibility)) == [True]
+            if not item.is_displayed():
+                return False
+        return True
