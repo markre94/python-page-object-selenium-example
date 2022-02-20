@@ -40,7 +40,7 @@ def browser_config():
     return options
 
 
-@allure.step("Drivers setup")
+@allure.step("Drivers setup changed")
 def driver_setup(options):
     driver_exec_path = ChromeDriverManager().install()
     s = Service(driver_exec_path)
