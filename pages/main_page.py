@@ -127,4 +127,4 @@ class MainPage(BasePage):
 
     def side_bar_log_out(self):
         self.header.side_bar_log_out()
-        return sign_in_page.SignInPage
+        return sign_in_page.SignInPage(self.driver)

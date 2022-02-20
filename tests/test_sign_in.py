@@ -1,6 +1,6 @@
 import pytest
 
-from pages.sign_in_page import SignInPage, CommonSignUpActions
+from pages.sign_in_page import SignInPage
 from utils.log import setup_custom_logger
 from utils.users_data import get_user, UserTypes
 
@@ -18,15 +18,14 @@ sign_in_user_data = [
 
 
 @pytest.mark.parametrize('user_type,expected_result', sign_in_user_data)
-def test_sign_in_user(init_driver, user_type, expected_result):
+def test_sign_in_user(sign_in_page, user_type, expected_result):
     user = get_user(user_type)
 
-    page = SignInPage(init_driver)
-    page.sign_in(user)
+    sign_in_page.sign_in(user)
 
-    assert page.page_url == expected_result[1]
+    assert sign_in_page.page_url == expected_result[1]
     logger.info(f"Checking current page url.")
-    assert expected_result[0] == page.get_sign_in_error_msg()
+    assert expected_result[0] == sign_in_page.get_sign_in_error_msg()
     logger.info("Checking if error message appeared.")
 
 
@@ -38,10 +37,6 @@ def test_go_to_page_inventory_without_signing_in(init_driver):
     assert page.get_sign_in_error_msg() == error_msg
 
 
-def test_log_out(init_driver):
-    sign_in = CommonSignUpActions(init_driver)
-    main = sign_in.sign_in_with_normal_user()
-    main.side_bar_log_out()
-
-    assert init_driver.current_url == "https://www.saucedemo.com/"
-
+def test_log_out(main_page):
+    sign_in_page = main_page.side_bar_log_out()
+    assert sign_in_page.page_url == "https://www.saucedemo.com/"

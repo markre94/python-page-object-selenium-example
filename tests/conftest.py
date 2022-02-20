@@ -8,6 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from pages.sign_in_page import SignInPage, CommonSignUpActions
 
 from utils.log import setup_custom_logger
 
@@ -68,3 +69,13 @@ def init_driver():
 
     logger.info("Closing driver.")
     driver.close()
+
+
+@pytest.fixture()
+def sign_in_page(init_driver):
+    return SignInPage(init_driver)
+
+
+@pytest.fixture()
+def main_page(init_driver):
+    return CommonSignUpActions(init_driver).sign_in_with_normal_user()

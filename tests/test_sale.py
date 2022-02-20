@@ -2,7 +2,6 @@ from decimal import Decimal
 
 import pytest
 
-from pages.sign_in_page import CommonSignUpActions
 from utils.client_data import load_client_data, ClientTypes
 
 
@@ -28,11 +27,8 @@ def invalid_client_test_data(data):
     }
 
 
-def test_sale_inventory_items(init_driver, valid_client_test_data):
+def test_sale_inventory_items(main_page, valid_client_test_data):
     sale_items_data = valid_client_test_data['items']
-
-    sign_in = CommonSignUpActions(init_driver)
-    main_page = sign_in.sign_in_with_normal_user()
 
     main_page.add_item_to_cart_by_name(sale_items_data[0]['name'])
     main_page.add_item_to_cart_by_name(sale_items_data[1]['name'])
@@ -40,7 +36,7 @@ def test_sale_inventory_items(init_driver, valid_client_test_data):
     assert 2 == main_page.get_qty_of_items_in_the_cart(), 'Number of items added to the cart differs from actual.'
 
     cart = main_page.open_cart()
-    assert init_driver.current_url == "https://www.saucedemo.com/cart.html"
+    assert cart.page_url == "https://www.saucedemo.com/cart.html"
     cart_data = cart.get_all_cart_data()
 
     assert sale_items_data[0]['name'] in cart_data
@@ -59,22 +55,19 @@ def test_sale_inventory_items(init_driver, valid_client_test_data):
     checkout_complete.click_back_home()
 
 
-def test_abort_sale_inventory_remove_items_from_cart(init_driver, valid_client_test_data):
+def test_abort_sale_inventory_remove_items_from_cart(main_page, valid_client_test_data):
     sale_items_data = valid_client_test_data['items']
-
-    sign_in = CommonSignUpActions(init_driver)
-    main_page = sign_in.sign_in_with_normal_user()
 
     main_page.add_item_to_cart_by_name(sale_items_data[0]['name'])
     cart = main_page.open_cart()
-    assert init_driver.current_url == "https://www.saucedemo.com/cart.html"
+    assert cart.page_url == "https://www.saucedemo.com/cart.html"
     assert sale_items_data[0]['name'] in cart.get_all_cart_data()
 
     cart.click_continue_shopping()
 
     main_page.add_item_to_cart_by_name(sale_items_data[1]['name'])
     cart = main_page.open_cart()
-    assert init_driver.current_url == "https://www.saucedemo.com/cart.html"
+    assert cart.page_url == "https://www.saucedemo.com/cart.html"
     assert sale_items_data[1]['name'] in cart.get_all_cart_data()
 
     checkout_step_one = cart.click_checkout()
@@ -87,11 +80,9 @@ def test_abort_sale_inventory_remove_items_from_cart(init_driver, valid_client_t
     cart.click_continue_shopping()
 
 
-def test_abort_sale_inventory_remove_item_from_main_page(init_driver, valid_client_test_data):
+def test_abort_sale_inventory_remove_item_from_main_page(main_page, valid_client_test_data):
     items = valid_client_test_data['items']
 
-    sign_in = CommonSignUpActions(init_driver)
-    main_page = sign_in.sign_in_with_normal_user()
     main_page.add_item_to_cart_by_name(items[0]['name'])
     main_page.add_item_to_cart_by_name(items[1]['name'])
 
@@ -106,11 +97,9 @@ def test_abort_sale_inventory_remove_item_from_main_page(init_driver, valid_clie
     assert 0 == main_page.get_qty_of_items_in_the_cart()
 
 
-def test_try_sell_item_with_no_customer_data(init_driver, invalid_client_test_data):
+def test_try_sell_item_with_no_customer_data(main_page, invalid_client_test_data):
     items = invalid_client_test_data['items']
 
-    sign_in = CommonSignUpActions(init_driver)
-    main_page = sign_in.sign_in_with_normal_user()
     main_page.add_item_to_cart_by_name(items[0]['name'])
     main_page.add_item_to_cart_by_name(items[1]['name'])
     cart = main_page.open_cart()
