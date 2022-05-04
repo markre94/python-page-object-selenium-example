@@ -25,7 +25,7 @@ class CheckoutClientInfoPage(BasePage):
         self._type_in_postal_code(data.zip_code)
 
     def get_client_error_message(self):
-        return self.get_element_possible_message(*self.locators.ERROR_MSG)
+        return self.error_msg_handler.get_error_message(*self.locators.ERROR_MSG)
 
     def click_continue(self):
         self.find_element(*self.locators.CONTINUE_BTN).click()
@@ -71,5 +71,5 @@ class CheckoutCompletePage(BasePage):
         return self.find_element(*self.locators.COMPLETE_TEXT).text
 
     def is_image_broken(self):
-        return self.is_link_element_broken(*self.locators.PONY_IMG)
+        return self.link_resp.is_link_element_broken(*self.locators.PONY_IMG)
 

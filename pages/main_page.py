@@ -1,5 +1,7 @@
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+
 
 import pages.cart_page as cart_page
 import pages.sign_in_page as sign_in_page
@@ -18,7 +20,8 @@ class MainPageHeader(BasePage):
     def open_cart(self):
         self.find_element(*self.locators.SHOPPING_CART).click()
 
-    def get_qty_of_items_in_the_cart(self):
+    @property
+    def cart_items_qty(self):
         try:
             element = self.find_element(*self.locators.ITEMS_QTY_IN_THE_CART)
         except NoSuchElementException:
@@ -26,13 +29,19 @@ class MainPageHeader(BasePage):
         else:
             return int(element.text)
 
-    def _click_and_open_sidebar(self):
+    def open_sidebar(self):
         self.find_element(*self.locators.SIDE_BAR).click()
 
-    def side_bar_log_out(self):
-        self._click_and_open_sidebar()
-        self.wait_for_side_bar_element(*self.side_bar_locators.LOGOUT_SIDEBAR)
-        self.find_element(*self.side_bar_locators.LOGOUT_SIDEBAR).click()
+
+class MainPageSideBar(BasePage):
+    def __init__(self, driver):
+        self.locators = SideBarLocators()
+        super().__init__(driver, "https://www.saucedemo.com/invetory.html")
+
+    def log_out(self):
+        self.wait_element(*self.locators.LOGOUT_SIDEBAR, EC.element_to_be_clickable)
+        self.find_element(*self.locators.LOGOUT_SIDEBAR).click()
+        return sign_in_page.SignInPage(self.driver)
 
 
 class MainPageItemList(BasePage):
@@ -42,7 +51,7 @@ class MainPageItemList(BasePage):
         super().__init__(driver, "https://www.saucedemo.com/invetory.html")
 
     def sort_items_by_give_value(self, value: str):
-        self.select_item_by_value(*self.locators.SELECT_SORT_TYPE, value=value)
+        self.selection_base.select_by_value(*self.locators.SELECT_SORT_TYPE, value=value)
 
     def get_inventory_list_objects(self):
         return self.find_elements(*self.locators.INVENTORY_ITEM)
@@ -85,6 +94,7 @@ class MainPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver, "https://www.saucedemo.com/invetory.html")
         self.header = MainPageHeader(self.driver)
+        self.sidebar = MainPageSideBar(self.driver)
         self.item_list = MainPageItemList(self.driver)
         self.inventory_item = InventoryItemPage(self.driver)
         self.footer = FooterMainPage(self.driver)
@@ -110,10 +120,11 @@ class MainPage(BasePage):
         return cart_page.CartPage(self.driver)
 
     def get_qty_of_items_in_the_cart(self):
-        return self.header.get_qty_of_items_in_the_cart()
+        return self.header.cart_items_qty
 
-    def get_qty_items_from_cart_from_header(self):
-        return self.header.get_qty_of_items_in_the_cart()
+    @property
+    def cart_items_qty(self):
+        return self.header.cart_items_qty
 
     def get_footer_link_responses(self):
         return self.footer.get_links_responses()
@@ -126,5 +137,5 @@ class MainPage(BasePage):
         return True
 
     def side_bar_log_out(self):
-        self.header.side_bar_log_out()
-        return sign_in_page.SignInPage(self.driver)
+        self.header.open_sidebar()
+        return self.sidebar.log_out()

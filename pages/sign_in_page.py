@@ -25,7 +25,7 @@ class SignInPage(BasePage):
         self.click_login_btn()
 
     def get_sign_in_error_msg(self):
-        return self.get_element_possible_message(*self.locators.ERROR_BOX)
+        return self.error_msg_handler.get_error_message(*self.locators.ERROR_BOX)
 
     def close_error_login_msg_box(self):
         self.find_element(*self.locators.ERROR_BOX_CLOSE_BTN).click()
